@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>MCPSentinel Dashboard</title>
+  <style>
+    body{font-family:Arial;background:#0d1117;color:#c9d1d9;padding:20px}
+    h1{color:#58a6ff}
+    h2{color:#58a6ff;margin-top:30px}
+    .card{border:1px solid #30363d;border-radius:8px;padding:16px;margin:10px 0;background:#161b22}
+    .CRITICAL{color:#ff7b72;font-weight:bold}
+    .HIGH{color:#f85149;font-weight:bold}
+    .MEDIUM{color:#e3b341;font-weight:bold}
+    .LOW{color:#3fb950;font-weight:bold}
+    table{width:100%;border-collapse:collapse;margin-top:10px}
+    th,td{padding:10px;border:1px solid #30363d;text-align:left}
+    th{background:#161b22;color:#58a6ff}
+    button{background:#238636;color:white;border:none;padding:10px 20px;border-radius:6px;cursor:pointer;font-size:14px}
+    button:hover{background:#2ea043}
+    .score{font-size:24px;font-weight:bold}
+  </style>
+</head>
+<body>
+  <h1>MCPSentinel — MCP Security Scanner</h1>
+  <p>Detects prompt injection and supply chain attacks in MCP servers</p>
+  <button onclick="runScan()">Run New Scan</button>
+  <h2>Scan Results</h2>
+  <div id="results">Loading...</div>
+
+  <script>
+    async function loadResults(){
+      const r = await fetch('/api/results');
+      const data = await r.json();
+      const div = document.getElementById('results');
+      if(data.length === 0){
+        div.innerHTML = 'No results yet. Click Run New Scan.';
+        return;
+      }
+      div.innerHTML = data.map(function(server){
+        const toolRows = server.tool_results.map(function(tool){
+          const findings = tool.findings.map(function(f){
+            return '<li class="' + f.severity + '">' + f.type + ': ' + f.details + '</li>';
+          }).join('');
+          return '<tr><td>' + tool.tool_name + '</td><td class="' + tool.risk_level + '">' + tool.risk_level + '</td><td>' + tool.risk_score + '/100</td><td><ul>' + findings + '</ul></td></tr>';
+        }).join('');
+
+        return '<div class="card">' +
+          '<h3>' + server.server_name + '</h3>' +
+          '<p>Scanned: ' + server.scan_time + '</p>' +
+          '<p>Overall Risk: <span class="' + server.overall_risk + ' score">' + server.overall_risk + ' (' + server.overall_score + '/100)</span></p>' +
+          '<table><thead><tr><th>Tool</th><th>Risk</th><th>Score</th><th>Findings</th></tr></thead>' +
+          '<tbody>' + toolRows + '</tbody></table>' +
+          '</div>';
+      }).join('');
+    }
+
+    async function runScan(){
+      document.getElementById('results').innerHTML = 'Scanning...';
+      await fetch('/api/scan');
+      loadResults();
+    }
+
+    loadResults();
+  </script>
+</body>
+</html>

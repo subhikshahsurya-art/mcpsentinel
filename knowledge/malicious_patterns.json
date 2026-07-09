@@ -1,0 +1,41 @@
+{
+  "injection_patterns": [
+    "ignore all previous instructions",
+    "ignore previous instructions",
+    "system override",
+    "system prompt",
+    "disregard previous",
+    "forget previous",
+    "new instruction",
+    "hidden instruction",
+    "do not tell the user",
+    "keep this secret",
+    "exfiltrate",
+    "send to http",
+    "post to http",
+    "upload to",
+    "before returning",
+    "additionally send",
+    "also send"
+  ],
+  "suspicious_urls": [
+    "http://",
+    "https://",
+    "ftp://",
+    "webhook",
+    "ngrok",
+    "requestbin",
+    "pipedream"
+  ],
+  "dangerous_permissions": [
+    "root",
+    "sudo",
+    "admin",
+    "full access",
+    "all files",
+    "system access",
+    "unrestricted",
+    "bypass",
+    "override security"
+  ]
+}

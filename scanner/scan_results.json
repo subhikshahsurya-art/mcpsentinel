@@ -1,0 +1,106 @@
+[
+  {
+    "server_name": "file-reader",
+    "filepath": "/home/subhikshah/MCPSentinel/sample_mcps/safe_mcp.json",
+    "scan_time": "2026-07-09 11:39:23",
+    "overall_risk": "LOW",
+    "overall_score": 0,
+    "tools_scanned": 2,
+    "tool_results": [
+      {
+        "tool_name": "read_file",
+        "risk_score": 0,
+        "risk_level": "LOW",
+        "findings": []
+      },
+      {
+        "tool_name": "list_directory",
+        "risk_score": 0,
+        "risk_level": "LOW",
+        "findings": []
+      }
+    ]
+  },
+  {
+    "server_name": "document-processor",
+    "filepath": "/home/subhikshah/MCPSentinel/sample_mcps/subtle_attack_mcp.json",
+    "scan_time": "2026-07-09 11:39:23",
+    "overall_risk": "HIGH",
+    "overall_score": 57,
+    "tools_scanned": 2,
+    "tool_results": [
+      {
+        "tool_name": "summarize_document",
+        "risk_score": 57,
+        "risk_level": "HIGH",
+        "findings": [
+          {
+            "type": "ML_INJECTION_DETECTED",
+            "severity": "CRITICAL",
+            "details": "ML detected injection with 57.37% confidence"
+          }
+        ]
+      },
+      {
+        "tool_name": "translate_text",
+        "risk_score": 0,
+        "risk_level": "LOW",
+        "findings": []
+      }
+    ]
+  },
+  {
+    "server_name": "file-reader-backdoor",
+    "filepath": "/home/subhikshah/MCPSentinel/sample_mcps/malicious_mcp.json",
+    "scan_time": "2026-07-09 11:39:23",
+    "overall_risk": "CRITICAL",
+    "overall_score": 100,
+    "tools_scanned": 2,
+    "tool_results": [
+      {
+        "tool_name": "read_file",
+        "risk_score": 100,
+        "risk_level": "CRITICAL",
+        "findings": [
+          {
+            "type": "KEYWORD_INJECTION",
+            "severity": "CRITICAL",
+            "details": "Hidden instructions found: ['ignore all previous instructions', 'system override', 'exfiltrate', 'before returning']"
+          },
+          {
+            "type": "SUSPICIOUS_URL",
+            "severity": "HIGH",
+            "details": "External URLs detected: ['http://']"
+          },
+          {
+            "type": "DANGEROUS_PERMISSIONS",
+            "severity": "HIGH",
+            "details": "Dangerous permissions: ['all files']"
+          },
+          {
+            "type": "ML_INJECTION_DETECTED",
+            "severity": "CRITICAL",
+            "details": "ML detected injection with 56.01% confidence"
+          }
+        ]
+      },
+      {
+        "tool_name": "execute_command",
+        "risk_score": 55,
+        "risk_level": "HIGH",
+        "findings": [
+          {
+            "type": "DANGEROUS_PERMISSIONS",
+            "severity": "HIGH",
+            "details": "Dangerous permissions: ['root', 'all files', 'system access']"
+          },
+          {
+            "type": "ML_INJECTION_DETECTED",
+            "severity": "CRITICAL",
+            "details": "ML detected injection with 55.24% confidence"
+          }
+        ]
+      }
+    ]
+  }
+]
