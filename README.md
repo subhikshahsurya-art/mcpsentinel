@@ -3,7 +3,8 @@
 Detects prompt injection and supply chain attacks in Model Context Protocol (MCP) servers using dual detection — keyword pattern matching AND ML-based semantic analysis.
 
 ## Dashboard Screenshot
-![MCPSentinel Dashboard](dashboard.png)
+![MCPSentinel Dashboard](sentinal.png)
+![MCPSentinel Dashboard](sentinal2.png)
 
 ## What it does
 - Scans MCP server tool definitions for hidden malicious instructions
