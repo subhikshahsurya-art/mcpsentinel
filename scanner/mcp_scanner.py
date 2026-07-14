@@ -2,6 +2,7 @@ import json
 import os
 from datetime import datetime
 from ml_detector import predict_injection
+from multilingual_detector import analyze_multilingual
 
 PATTERNS_FILE = "/home/subhikshah/MCPSentinel/knowledge/malicious_patterns.json"
 RESULTS_FILE = "/home/subhikshah/MCPSentinel/scanner/scan_results.json"
@@ -88,6 +89,19 @@ def scan_tool(tool, patterns):
                 "severity": "CRITICAL",
                 "details": "ML detected injection with " + str(ml_result["confidence"]) + "% confidence"
             })
+   # Multilingual detection
+    multi_result = analyze_multilingual(full_text)
+    if multi_result["is_injection"] and multi_result["confidence"] > 40:
+        multi_score = multi_result["confidence"]
+        score = max(score, multi_score)
+        lang = multi_result["language_name"]
+        findings.append({
+            "type": "MULTILINGUAL_INJECTION",
+            "severity": "CRITICAL",
+            "details": lang + "-language injection detected with " +
+                      str(multi_result["confidence"]) + "% confidence. " +
+                      "Closest match: " + multi_result["closest_injection"]
+        })
 
     score = min(score, 100)
     level = calculate_risk(score)
